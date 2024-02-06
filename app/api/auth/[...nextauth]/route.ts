@@ -23,12 +23,10 @@ export const authOptions: NextAuthOptions = {
                     email: { label: "Email", type: "email" },
                 },
                 async authorize(credentials, req): Promise<any> {
-                    if (!process.env.LOGIN_URL) {
-                        throw new Error("LOGIN_URL is not defined in the environment variables.");
+                    if (!process.env.LOGIN_URL || !process.env.JWT_SECRET) {
+                        throw new Error("Undefined env vars.");
                     }
-                    if (!process.env.JWT_SECRET) {
-                        throw new Error("JWT_SECRET is not defined in the environment variables.");
-                    }
+
 
                     try {
                         const response = await fetch(process.env.LOGIN_URL, {
